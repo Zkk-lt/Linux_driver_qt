@@ -30,12 +30,12 @@ sudo apt-get install libtool
 进入解压目录后，执行：
 
 ```bash
-./configure --host=arm-linux-gnueabihf ac_cv_func_malloc_0_nonnull=yes --cache-file=arm-linux.cache --prefix=<ABS_PATH_TO_ARM_TSLIB>
+./configure --host=arm-linux-gnueabihf ac_cv_func_malloc_0_nonnull=yes --cache-file=arm-linux.cache --prefix=/your/path/arm-tslib
 make
 make install
 ```
 
-> `--prefix` 使用的是占位符路径，请替换为你自己的绝对路径（与源码目录名无关）。
+> `--prefix` 使用的是示例路径，请替换为你自己的绝对路径（与源码目录名无关）。
 
 ---
 
@@ -92,7 +92,7 @@ load(qt_config)
 在 Qt 源码根目录创建 `autoconfigure.sh`：
 
 ```bash
-./configure -prefix <ABS_PATH_TO_ARM_QT> \
+./configure -prefix /your/path/arm-qt \
 -opensource \
 -confirm-license \
 -release \
@@ -150,14 +150,14 @@ load(qt_config)
 --libjpeg=qt \
 --sqlite=qt \
 -plugin-sql-sqlite \
--I<ABS_PATH_TO_ARM_TSLIB>/include \
--L<ABS_PATH_TO_ARM_TSLIB>/lib \
+-I /your/path/arm-tslib/include \
+-L /your/path/arm-tslib/lib \
 -recheck-all
 ```
 
 需要按实际环境修改以下路径：
 
-1. `-prefix`：Qt 编译输出路径（请使用你自己的绝对路径，如 `<ABS_PATH_TO_ARM_QT>`）
+1. `-prefix`：Qt 编译输出路径（请使用你自己的绝对路径，如 `/your/path/arm-qt`）
 2. `-I`：tslib 头文件路径（应与 1.3 步骤中 `--prefix` 指向的 tslib 安装目录一致）
 3. `-L`：tslib 库文件路径（应与 1.3 步骤中 `--prefix` 指向的 tslib 安装目录一致）
 
@@ -195,17 +195,19 @@ make install
 tar -jcf arm-qt.tar.bz2 arm-qt
 ```
 
+> 上述命令默认你的 `-prefix` 最后一级目录名是 `arm-qt`。
+
 ---
 
 ## 3. 开发板配置 Qt 运行环境
 
 ### 3.1 拷贝并解压 tslib/Qt
 
-将 `arm-tslib.tar.bz2` 与 `arm-qt.tar.bz2` 拷贝到开发板文件系统（示例为 NFS 根文件系统）：
+将 `arm-tslib.tar.bz2` 与 `arm-qt.tar.bz2` 拷贝到开发板文件系统（以下路径为示例）：
 
 ```bash
-cp arm-qt.tar.bz2 ~/myTest/nfs/rootfs/usr/lib
-cd ~/myTest/nfs/rootfs/usr/lib/
+cp arm-qt.tar.bz2 /your/nfs/rootfs/usr/lib
+cd /your/nfs/rootfs/usr/lib/
 tar xf arm-qt.tar.bz2
 rm arm-qt.tar.bz2
 ```
