@@ -10,7 +10,7 @@
 
 ### 1.1 下载与解压
 
-- 下载地址：<https://github.com/libts/tslib/tags>
+- 下载地址：[tslib tags](https://github.com/libts/tslib/tags)
 - 示例版本：`tslib-1.21.tar.bz2`
 
 ```bash
@@ -36,6 +36,7 @@ make install
 ```
 
 > `--prefix` 使用的是示例路径，请替换为你自己的绝对路径（与源码目录名无关）。
+> `ac_cv_func_malloc_0_nonnull=yes` 与 `--cache-file=arm-linux.cache` 用于缓存/指定交叉编译检测结果，避免部分配置探测失败。
 
 ---
 
@@ -43,7 +44,7 @@ make install
 
 ### 2.1 下载 Qt 5.15.2 源码
 
-- 下载地址：<https://download.qt.io/archive/qt/5.15/5.15.2/single/>
+- 下载地址：[Qt 5.15.2 single package](https://download.qt.io/archive/qt/5.15/5.15.2/single/)
 - 文件：`qt-everywhere-src-5.15.2.tar.xz`
 
 ```bash
