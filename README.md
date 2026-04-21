@@ -10,7 +10,7 @@
 
 ### 1.1 下载与解压
 
-- 下载地址：<https://github.com/libts/tslib/tags>
+- 下载地址： <https://github.com/libts/tslib/tags>
 - 示例版本：`tslib-1.21.tar.bz2`
 
 ```bash
@@ -43,7 +43,7 @@ make install
 
 ### 2.1 下载 Qt 5.15.2 源码
 
-- 下载地址：<https://download.qt.io/archive/qt/5.15/5.15.2/single/>
+- 下载地址： <https://download.qt.io/archive/qt/5.15/5.15.2/single/>
 - 文件：`qt-everywhere-src-5.15.2.tar.xz`
 
 ```bash
