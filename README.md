@@ -30,12 +30,12 @@ sudo apt-get install libtool
 进入解压目录后，执行：
 
 ```bash
-./configure --host=arm-linux-gnueabihf ac_cv_func_malloc_0_nonnull=yes --cache-file=arm-linux.cache --prefix=/path/to/tslib-2
+./configure --host=arm-linux-gnueabihf ac_cv_func_malloc_0_nonnull=yes --cache-file=arm-linux.cache --prefix=/path/to/arm-tslib
 make
 make install
 ```
 
-> `--prefix` 为 tslib 安装输出目录，请根据实际路径修改。
+> `--prefix` 为自定义的 tslib 安装输出目录（与源码目录名无关），请根据实际路径修改。
 
 ---
 
@@ -150,8 +150,8 @@ load(qt_config)
 --libjpeg=qt \
 --sqlite=qt \
 -plugin-sql-sqlite \
--I/path/to/tslib-2/tslib/include \
--L/path/to/tslib-2/tslib/lib \
+-I/path/to/arm-tslib/tslib/include \
+-L/path/to/arm-tslib/tslib/lib \
 -recheck-all
 ```
 
