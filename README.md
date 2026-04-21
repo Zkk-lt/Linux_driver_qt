@@ -10,7 +10,7 @@
 
 ### 1.1 下载与解压
 
-- 下载地址： <https://github.com/libts/tslib/tags>
+- 下载地址：<https://github.com/libts/tslib/tags>
 - 示例版本：`tslib-1.21.tar.bz2`
 
 ```bash
@@ -43,7 +43,7 @@ make install
 
 ### 2.1 下载 Qt 5.15.2 源码
 
-- 下载地址： <https://download.qt.io/archive/qt/5.15/5.15.2/single/>
+- 下载地址：<https://download.qt.io/archive/qt/5.15/5.15.2/single/>
 - 文件：`qt-everywhere-src-5.15.2.tar.xz`
 
 ```bash
@@ -158,8 +158,8 @@ load(qt_config)
 需要按实际环境修改以下路径：
 
 1. `-prefix`：Qt 编译输出路径（请使用你自己的绝对路径，如 `/your/path/arm-qt`）
-2. `-I`：tslib 头文件路径（应与 1.3 步骤中 `--prefix` 指向的 tslib 安装目录一致）
-3. `-L`：tslib 库文件路径（应与 1.3 步骤中 `--prefix` 指向的 tslib 安装目录一致）
+2. `-I`：tslib 头文件路径（即 1.3 步骤安装目录下的 `include`，如 `/your/path/arm-tslib/include`）
+3. `-L`：tslib 库文件路径（即 1.3 步骤安装目录下的 `lib`，如 `/your/path/arm-tslib/lib`）
 
 常见参数说明：
 
