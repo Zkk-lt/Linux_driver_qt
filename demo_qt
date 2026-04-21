@@ -1,0 +1,183 @@
+1 tslib编译
+tslib之前在测试触摸屏的时候使用过，这里再来记录一下编译过程。
+下载tslib库的源码：https://github.com/libts/tslib/tags
+将下载的源码拷贝到ubuntu虚拟机中，然后解压：
+tar xvf tslib-1.21.tar.bz2
+编译 tslib 的时候需要先在 ubuntu 中安装一些文件:
+sudo apt-get install autoconf 
+sudo apt-get install automake 
+sudo apt-get install libtool
+
+进入解压后的文件夹，在 ubunt中创建一个名为“tslib”的目录存放编译结果，然后执行以下指令进行编译：
+./configure --host=arm-linux-gnueabihf ac_cv_func_malloc_0_nonnull=yes --cache-file=arm-linux.cache -prefix=/home/zkk6666/myTest/imx6ull/otherlib/tslib-2
+make
+make install
+
+2 Qt源码编译
+2.1 下载Qt5的源码
+下载地址：https://download.qt.io/archive/qt/5.15/5.15.2/single/
+
+
+将下载的qt-everywhere-src-5.15.2.tar.xz拷贝到Ubuntu中，然后解压：
+tar -xvf qt-everywhere-src-5.15.2.tar.xz
+
+2.2 修改qmake.conf
+修改qtbase/mkspecs/linux-arm-gnueabi-g++/中的qmake.conf文件
+这个文件默认的内容是：
+#
+# qmake configuration for building with arm-linux-gnueabi-g++
+#
+
+MAKEFILE_GENERATOR      = UNIX
+CONFIG                 += incremental
+QMAKE_INCREMENTAL_STYLE = sublib
+
+QT_QPA_DEFAULT_PLATFORM = linuxfb 
+QMAKE_CFLAGS += -O2 -march=armv7-a -mtune=cortex-a7 -mfpu=neon -mfloat-abi=hard
+QMAKE_CXXFLAGS += -O2 -march=armv7-a -mtune=cortex-a7 -mfpu=neon -mfloat-abi=hard
+
+include(../common/linux.conf)
+include(../common/gcc-base-unix.conf)
+include(../common/g++-unix.conf)
+
+# modifications to g++.conf
+QMAKE_CC                = arm-linux-gnueabihf-gcc
+QMAKE_CXX               = arm-linux-gnueabihf-g++
+QMAKE_LINK              = arm-linux-gnueabihf-g++
+QMAKE_LINK_SHLIB        = arm-linux-gnueabihf-g++
+
+# modifications to linux.conf
+QMAKE_AR                = arm-linux-gnueabihf-ar cqs
+QMAKE_OBJCOPY           = arm-linux-gnueabihf-objcopy
+QMAKE_NM                = arm-linux-gnueabihf-nm -P
+QMAKE_STRIP             = arm-linux-gnueabihf-strip
+load(qt_config)
+
+2.3 配置编译选项
+
+编写一个autoconfigure.sh文件，然后根据自己的情况，写入如下配置：
+./configure -prefix /home/xxpcb/myTest/imx6ull/otherlib/qt/qt-everywhere-src-5.12.9/arm-qt \
+-opensource \
+-confirm-license \
+-release \
+-strip \
+-shared \
+-xplatform linux-arm-gnueabi-g++ \
+-optimized-qmake \
+-c++std c++11 \
+--rpath=no \
+-pch \
+-skip qt3d \
+-skip qtactiveqt \
+-skip qtandroidextras \
+-skip qtcanvas3d \
+-skip qtconnectivity \
+-skip qtdatavis3d \
+-skip qtdoc \
+-skip qtgamepad \
+-skip qtlocation \
+-skip qtmacextras \
+-skip qtnetworkauth \
+-skip qtpurchasing \
+-skip qtremoteobjects \
+-skip qtscript \
+-skip qtscxml \
+-skip qtsensors \
+-skip qtspeech \
+-skip qtsvg \
+-skip qttools \
+-skip qttranslations \
+-skip qtwayland \
+-skip qtwebengine \
+-skip qtwebview \
+-skip qtwinextras \
+-skip qtx11extras \
+-skip qtxmlpatterns \
+-make libs \
+-make examples \
+-nomake tools -nomake tests \
+-gui \
+-widgets \
+-dbus-runtime \
+--glib=no \
+--iconv=no \
+--pcre=qt \
+--zlib=qt \
+-no-openssl \
+--freetype=qt \
+--harfbuzz=qt \
+-no-opengl \
+-linuxfb \
+--xcb=no \
+-tslib \
+--libpng=qt \
+--libjpeg=qt \
+--sqlite=qt \
+-plugin-sql-sqlite \
+-I/home/xxpcb/myTest/imx6ull/otherlib/tslib-2/tslib/include \
+-L/home/xxpcb/myTest/imx6ull/otherlib/tslib-2/tslib/lib \
+-recheck-all
+注意其中3处是自己的配置路：
+1 /home/zkk6666/myTest/imx6ull/otherlib/qt/qt-everywhere-src-5.12.9/arm-qt 为编译输出路径。
+2 /home/zkk6666/myTest/imx6ull/otherlib/tslib-2/tslib/include 为tslib 头文件路径。
+3 /home/zkk6666/myTest/imx6ull/otherlib/tslib-2/tslib/lib 为tslib相关库文件路径。
+其它一些参数的含义:
+• -opensource：构建Qt的开源版本
+• -release：使用release版本的Qt
+• -xplatform linux-arm-gnueabi-g++：指定编译器
+• -skip qt3d：跳过Qt的3d
+• -make libs：编译要用到的库
+• -make examples：编译生成Qt的例程代码
+• -nomake tools：不生成Qt的工具
+• -no-openssl：不使用openssl
+
+2.4 编译
+配置前需要先安装 g++
+sudo apt-get install g++
+赋予脚本可执行权限，然后执行 autoconfigure.sh
+chmod +x autoconfigure.sh
+./autoconfigure.sh
+
+ make
+Make install
+将qrm-qt文件夹先整个打包为arm-qt.tar.bz2文件，后面移植到开发板时用：
+tar -jcf arm-qt.tar.bz2 arm-qt
+
+ 
+3 开发板上配置Qt环境
+3.1 复制tslib和Qt的编译文件
+将之前打包的arm-tslib.tar.bz2和arm-qt.tar.bz2压缩包复制到板子中，可以先复制到nfs网络位置，然后解压到/usr/lib 目录下，解压后开删除无用的压缩包。
+这是对arm-qt的操作步骤：
+cp arm-qt.tar.bz2 ~/myTest/nfs/rootfs/usr/lib
+cd ~/myTest/nfs/rootfs/usr/lib/
+tar xf arm-qt.tar.bz2
+rm arm-qt.tar.bz2
+arm-tslib复制与解压过程类似。
+编辑/etc/profile，写入如下内容：
+export TSLIB_ROOT=/usr/lib/arm-tslib 
+export TSLIB_CONSOLEDEVICE=none 
+export TSLIB_FBDEVICE=/dev/fb0 
+export TSLIB_TSDEVICE=/dev/input/event1 
+export TSLIB_CONFFILE=$TSLIB_ROOT/etc/ts.conf 
+export TSLIB_PLUGINDIR=$TSLIB_ROOT/lib/ts 
+export TSLIB_CALIBFILE=/etc/pointercal 
+export  LD_PRELOAD=$TSLIB_ROOT/lib/libts.so
+
+export QT_ROOT=/usr/lib/arm-qt 
+export QT_QPA_GENERIC_PLUGINS=tslib:/dev/input/event1 
+export QT_QPA_FONTDIR=/usr/share/fonts 
+export QT_QPA_PLATFORM_PLUGIN_PATH=$QT_ROOT/plugins 
+export QT_QPA_PLATFORM=linuxfb:tty=/dev/fb0 
+export QT_PLUGIN_PATH=$QT_ROOT/plugins 
+export LD_LIBRARY_PATH=$QT_ROOT/lib:$QT_ROOT/plugins/platforms 
+export QML2_IMPORT_PATH=$QT_ROOT/qml 
+export QT_QPA_FB_TSLIB=1
+然后使该配置立即生效：
+source /etc/profile
+4 Qt运行测试
+Qt的编译文件中，自带的Qt的一些例子，可以先来在板子上运行这些例子看看Qt程序能否在板子上正常运行。
+这是运行其中的一个程序：
+/usr/lib/arm-qt/examples/widgets/animation/animatedtiles/animatedtiles
+
+
+
