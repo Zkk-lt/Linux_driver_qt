@@ -30,7 +30,7 @@ sudo apt-get install libtool
 进入解压目录后，执行：
 
 ```bash
-./configure --host=arm-linux-gnueabihf ac_cv_func_malloc_0_nonnull=yes --cache-file=arm-linux.cache --prefix=/home/zkk6666/myTest/imx6ull/otherlib/tslib-2
+./configure --host=arm-linux-gnueabihf ac_cv_func_malloc_0_nonnull=yes --cache-file=arm-linux.cache --prefix=/path/to/tslib-2
 make
 make install
 ```
@@ -41,7 +41,7 @@ make install
 
 ## 2. 编译 Qt 源码
 
-## 2.1 下载 Qt 5.15.2 源码
+### 2.1 下载 Qt 5.15.2 源码
 
 - 下载地址：<https://download.qt.io/archive/qt/5.15/5.15.2/single/>
 - 文件：`qt-everywhere-src-5.15.2.tar.xz`
@@ -50,7 +50,7 @@ make install
 tar -xvf qt-everywhere-src-5.15.2.tar.xz
 ```
 
-## 2.2 修改 `qmake.conf`
+### 2.2 修改 `qmake.conf`
 
 修改文件：`qtbase/mkspecs/linux-arm-gnueabi-g++/qmake.conf`
 
@@ -87,12 +87,12 @@ QMAKE_STRIP             = arm-linux-gnueabihf-strip
 load(qt_config)
 ```
 
-## 2.3 配置编译选项
+### 2.3 配置编译选项
 
 在 Qt 源码根目录创建 `autoconfigure.sh`：
 
 ```bash
-./configure -prefix /home/xxpcb/myTest/imx6ull/otherlib/qt/qt-everywhere-src-5.12.9/arm-qt \
+./configure -prefix /path/to/qt-everywhere-src-5.15.2/arm-qt \
 -opensource \
 -confirm-license \
 -release \
@@ -150,8 +150,8 @@ load(qt_config)
 --libjpeg=qt \
 --sqlite=qt \
 -plugin-sql-sqlite \
--I/home/xxpcb/myTest/imx6ull/otherlib/tslib-2/tslib/include \
--L/home/xxpcb/myTest/imx6ull/otherlib/tslib-2/tslib/lib \
+-I/path/to/tslib-2/tslib/include \
+-L/path/to/tslib-2/tslib/lib \
 -recheck-all
 ```
 
@@ -172,7 +172,7 @@ load(qt_config)
 - `-nomake tools`：不编译工具
 - `-no-openssl`：不使用 OpenSSL
 
-## 2.4 执行编译
+### 2.4 执行编译
 
 先安装 `g++`：
 
@@ -199,7 +199,7 @@ tar -jcf arm-qt.tar.bz2 arm-qt
 
 ## 3. 开发板配置 Qt 运行环境
 
-## 3.1 拷贝并解压 tslib/Qt
+### 3.1 拷贝并解压 tslib/Qt
 
 将 `arm-tslib.tar.bz2` 与 `arm-qt.tar.bz2` 拷贝到开发板文件系统（示例为 NFS 根文件系统）：
 
@@ -212,7 +212,7 @@ rm arm-qt.tar.bz2
 
 `arm-tslib` 的复制解压方式相同。
 
-## 3.2 配置环境变量
+### 3.2 配置环境变量
 
 编辑 `/etc/profile`，追加：
 
