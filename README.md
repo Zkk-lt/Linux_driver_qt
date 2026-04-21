@@ -157,9 +157,9 @@ load(qt_config)
 
 需要按实际环境修改以下路径：
 
-1. `-prefix`：Qt 编译输出路径
-2. `-I`：tslib 头文件路径
-3. `-L`：tslib 库文件路径
+1. `-prefix`：Qt 编译输出路径（请使用你自己的绝对路径，例如 `/path/to/arm-qt`）
+2. `-I`：tslib 头文件路径（应与 1.3 步骤中 `--prefix` 指向的 tslib 安装目录一致）
+3. `-L`：tslib 库文件路径（应与 1.3 步骤中 `--prefix` 指向的 tslib 安装目录一致）
 
 常见参数说明：
 
