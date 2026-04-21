@@ -35,7 +35,7 @@ make
 make install
 ```
 
-> `--prefix` 为自定义的 tslib 安装输出目录（与源码目录名无关），请根据实际路径修改。
+> `--prefix` 为示例安装目录，请替换为你自己的绝对路径（与源码目录名无关）。
 
 ---
 
@@ -92,7 +92,7 @@ load(qt_config)
 在 Qt 源码根目录创建 `autoconfigure.sh`：
 
 ```bash
-./configure -prefix /path/to/qt-everywhere-src-5.15.2/arm-qt \
+./configure -prefix /path/to/arm-qt \
 -opensource \
 -confirm-license \
 -release \
@@ -150,8 +150,8 @@ load(qt_config)
 --libjpeg=qt \
 --sqlite=qt \
 -plugin-sql-sqlite \
--I/path/to/arm-tslib/tslib/include \
--L/path/to/arm-tslib/tslib/lib \
+-I/path/to/arm-tslib/include \
+-L/path/to/arm-tslib/lib \
 -recheck-all
 ```
 
